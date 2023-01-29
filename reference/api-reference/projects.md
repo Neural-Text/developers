@@ -48,3 +48,27 @@ Search in project name
 {% endswagger-response %}
 {% endswagger %}
 
+Take a look at how you might call this method using `curl` or `python`
+
+{% tabs %}
+{% tab title="cURL" %}
+```bash
+curl https://api.neuraltext.com/api/v1/projects \
+   -H "Accept: application/json" \
+   -H "Authorization: Token {Your.API.Key}"
+```
+{% endtab %}
+
+{% tab title="Python" %}
+```python
+import requests
+token_key = "Your.API.Key"
+
+# See your project
+url = "https://api.neuraltext.com/api/v1/projects/"
+headers = {"Authorization": f"Token {token_key}"}
+
+response = requests.get(url, headers=headers)
+```
+{% endtab %}
+{% endtabs %}

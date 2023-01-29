@@ -24,7 +24,7 @@ This example will show you how to employ the API to generate ideas on how machin
 Generate some ideas combining machine learning and education:
 ```
 
-{% swagger method="post" path="/write/" baseUrl="https://api.neuraltext.com/api/v1/ai" summary="Complete the provided prompt" expanded="false" %}
+{% swagger method="post" path="/write" baseUrl="https://api.neuraltext.com/api/v1/ai" summary="Complete the provided prompt" expanded="false" %}
 {% swagger-description %}
 Price: 
 
@@ -88,13 +88,40 @@ The rate limit for this endpoint is 10 calls per second. If you exceed it, you w
 {% endswagger-response %}
 {% endswagger %}
 
+Take a look at how you might call this method using `curl` or `python`
+
+{% tabs %}
+{% tab title="cURL" %}
+```bash
+curl -X POST https://api.neuraltext.com/api/v1/ai/write/ \
+   -H "Accept: application/json" \
+   -H "Authorization: Token {Your.API.Key}"
+   -d '{"text":"A prompt", "temperature":0.9, "max_tokens":100}'
+```
+{% endtab %}
+
+{% tab title="Python" %}
+```python
+import requests
+token_key = "Your.API.Key"
+
+# Write
+url = "https://api.neuraltext.com/api/v1/ai/write/"
+data = {"text":"A prompt", "temperature":0.9, "max_tokens":100}
+headers = {"Authorization": f"Token {token_key}"}
+
+response = requests.post(url, json=data, headers=headers)
+```
+{% endtab %}
+{% endtabs %}
+
 ### Summarize (beta)&#x20;
 
 {% hint style="warning" %}
 This endpoint is currently only available for custom integrations. [**Contact us**](mailto:humans@neuraltext.com)****
 {% endhint %}
 
-{% swagger method="post" path="/summarize/" baseUrl="https://api.neuraltext.com/api/v1/ai" summary="Summarize the provided text" %}
+{% swagger method="post" path="/summarize" baseUrl="https://api.neuraltext.com/api/v1/ai" summary="Summarize the provided text" %}
 {% swagger-description %}
 Price: 
 
@@ -159,3 +186,30 @@ If you don't specify `text` in the payload, you will get this message:
 ```
 {% endswagger-response %}
 {% endswagger %}
+
+Take a look at how you might call this method using `curl` or `python`
+
+{% tabs %}
+{% tab title="cURL" %}
+```bash
+curl -X POST https://api.neuraltext.com/api/v1/ai/summarize \
+   -H "Accept: application/json" \
+   -H "Authorization: Token {Your.API.Key}"
+   -d '{"text":"The text you want to summarize", "sentences":3}'
+```
+{% endtab %}
+
+{% tab title="Python" %}
+```python
+import requests
+token_key = "Your.API.Key"
+
+# Summarize
+url = "https://api.neuraltext.com/api/v1/ai/summarize"
+data = {"text":"The text you want to summarize", "sentences":3}
+headers = {"Authorization": f"Token {token_key}"}
+
+response = requests.post(url, json=data, headers=headers)
+```
+{% endtab %}
+{% endtabs %}

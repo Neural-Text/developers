@@ -15,7 +15,7 @@ To authenticate, you must set a plain text header named `Authorization` with the
 #### Example header
 
 ```
-GET https://api.neuraltext.com/api/v1/projects/ HTTP/1.1
+GET https://api.neuraltext.com/api/v1/projects HTTP/1.1
 Authorization: Token Your.API.Key
 ```
 
@@ -23,7 +23,7 @@ Authorization: Token Your.API.Key
 
 To make your first request, send an authenticated request to the projects endpoint. This will list all the projects you have access to.
 
-{% swagger baseUrl="https://api.neuraltext.com/api/v1" method="get" path="/projects/" summary="List projects" expanded="true" %}
+{% swagger baseUrl="https://api.neuraltext.com/api/v1" method="get" path="/projects" summary="List projects" expanded="true" %}
 {% swagger-description %}
 This endpoint will show the projects created or shared with you.
 {% endswagger-description %}
@@ -82,7 +82,7 @@ import requests
 token_key = "Your.API.Key"
 
 # See your project
-url = "https://api.neuraltext.com/api/v1/projects/"
+url = "https://api.neuraltext.com/api/v1/projects"
 headers = {"Authorization": f"Token {token_key}"}
 
 response = requests.get(url, headers=headers)
