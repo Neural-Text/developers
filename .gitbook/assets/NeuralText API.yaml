@@ -1,0 +1,3554 @@
+openapi: 3.0.3
+info:
+  title: NeuralText API
+  version: 1.0.0
+paths:
+  /api/fingerprint/:
+    post:
+      operationId: api_fingerprint_create
+      description: |-
+        Receive data securely from Fingerprint.
+        Example body request: https://dev.fingerprintjs.com/docs/webhooks#identification-webhook-object-format
+      tags:
+      - fingerprint
+      security:
+      - basicAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/logout/:
+    post:
+      operationId: api_logout_create
+      description: |-
+        POST view to blacklist the current refresh token.
+
+        Possible scenarios: https://medium.com/django-rest/logout-django-rest-framework-eb1b53ac6d35
+
+        ## POST body
+        - refresh_token
+
+        ## Returns
+        - `205` Refresh token blacklisted
+        - `400` Bad request if `refresh_token` is not valid
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/password_reset/:
+    post:
+      operationId: api_password_reset_create
+      description: |-
+        An Api View which provides a method to request a password reset token based on an e-mail address
+
+        Sends a signal reset_password_token_created when a reset token was created
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Email'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Email'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Email'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Email'
+          description: ''
+  /api/password_reset/confirm/:
+    post:
+      operationId: api_password_reset_confirm_create
+      description: An Api View which provides a method to reset a password based on
+        a unique token
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordToken'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PasswordToken'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PasswordToken'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PasswordToken'
+          description: ''
+  /api/password_reset/validate_token/:
+    post:
+      operationId: api_password_reset_validate_token_create
+      description: An Api View which provides a method to verify that a token is valid
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetToken'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResetToken'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResetToken'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResetToken'
+          description: ''
+  /api/register/:
+    post:
+      operationId: api_register_create
+      description: Creates user accounts
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUser'
+          description: ''
+  /api/schema/:
+    get:
+      operationId: api_schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/token/:
+    post:
+      operationId: api_token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MyTokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MyTokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MyTokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyTokenObtainPair'
+          description: ''
+  /api/token/refresh/:
+    post:
+      operationId: api_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/users/:
+    get:
+      operationId: api_users_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserList'
+          description: ''
+  /api/users/{username}/:
+    get:
+      operationId: api_users_retrieve
+      parameters:
+      - in: path
+        name: username
+        schema:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: api_users_update
+      parameters:
+      - in: path
+        name: username
+        schema:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: api_users_partial_update
+      parameters:
+      - in: path
+        name: username
+        schema:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/users/change-password/:
+    put:
+      operationId: api_users_change_password_update
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePassword'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChangePassword'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChangePassword'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangePassword'
+          description: ''
+    patch:
+      operationId: api_users_change_password_partial_update
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedChangePassword'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedChangePassword'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedChangePassword'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangePassword'
+          description: ''
+  /api/users/me/:
+    get:
+      operationId: api_users_me_retrieve
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/users/update-geo/:
+    put:
+      operationId: api_users_update_geo_update
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateGeoPreferences'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UpdateGeoPreferences'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateGeoPreferences'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateGeoPreferences'
+          description: ''
+    patch:
+      operationId: api_users_update_geo_partial_update
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateGeoPreferences'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateGeoPreferences'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateGeoPreferences'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateGeoPreferences'
+          description: ''
+  /api/users/update-profile/:
+    put:
+      operationId: api_users_update_profile_update
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UpdateUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateUser'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateUser'
+          description: ''
+    patch:
+      operationId: api_users_update_profile_partial_update
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateUser'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateUser'
+          description: ''
+  /api/v1/ai/categories/:
+    get:
+      operationId: api_v1_ai_categories_retrieve
+      description: |-
+        Returns a list of categories.
+
+        ```
+        [
+            'Writing',
+            'Ecommerce',
+            'Video',
+            'Email',
+            'Misc',
+            'Social Media',
+            'Ideation',
+            'Copywriting',
+            'Website',
+            'Google'
+        ]
+        ```
+      tags:
+      - AI Templates
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/ai/complete/:
+    post:
+      operationId: api_v1_ai_complete_create
+      description: |-
+        AI writing assistant inside the text editor
+
+        Parameters
+        ----------
+        - `text`: string
+        - `intent`: represents the
+            - `complete` - complete the current text (default)
+            - `rewrite`  - rewrite the current text
+            - `formal`   - change tone to formal
+            - `casual`   - change tone to casual
+            - `long`     - expand current text
+            - `short`    - shorten current text
+      tags:
+      - AI Templates
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/ai/favorite/:
+    post:
+      operationId: api_v1_ai_favorite_create
+      description: |-
+        Mark a generated text as favorite.
+
+        Body Parameters
+        ----------
+        - `project_id`: The project ID.
+        - `text_id`: The ID of the generated text.
+
+        Returns
+        -------
+        - `404`: When we can't find the project ID.
+        - `200`: When the completed text has been set as favorite correctly.
+      tags:
+      - AI Templates
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/ai/favorite/{id}/:
+    get:
+      operationId: api_v1_ai_favorite_retrieve
+      description: |-
+        List the generated texts marked as favorite inside a project.
+
+        Parameters
+        ----------
+        - `project_id`: The project ID.
+
+        Returns
+        -------
+        - `404`: When we can't find the project ID.
+        - `200`: When the completed text has been set as favorite correctly.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - AI Templates
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/ai/generate/:
+    post:
+      operationId: api_v1_ai_generate_create
+      description: |-
+        Generate text using AI.
+
+        Returns
+        -------
+        - `429` If the number of requests exceed RATELIMITS
+      tags:
+      - AI Templates
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/ai/most-used/{id}/:
+    get:
+      operationId: api_v1_ai_most_used_retrieve
+      description: |-
+        Show the 8 most used AI tools.
+
+        Returns
+        -------
+        A list of dict with:
+        - `name`: tool name
+        - `tool_id`: a hashid to identify the tool
+        - `image`: a logo for the AI template
+
+        ```
+        [
+            {
+                "name": "Growth Ideas",
+                "tool_id": "1eb7c2",
+                "image": "https://..."
+            },
+            {
+                "name": "Startup Ideas",
+                "tool_id": "1eb7c2",
+                "image": "https://..."
+            },
+            .
+            .
+            .
+        ]
+        ```
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - AI Templates
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/ai/output/{id}/delete/:
+    delete:
+      operationId: api_v1_ai_output_delete_destroy
+      description: |-
+        Delete a generated text.
+
+        Body Parameters
+        ----------
+        - `project_id`: The project ID.
+        - `text_id`: The ID of the selected generated text.
+
+        Returns
+        -------
+        - `404`: When we can't find the project ID.
+        - `200`: When the completed text has been set as favorite correctly.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - AI Templates
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/ai/output/update/:
+    patch:
+      operationId: api_v1_ai_output_update_partial_update
+      description: |-
+        Update a generated text with new content.
+
+        Body Parameters
+        ----------
+        - `project_id`: The project ID.
+        - `text_id`: The ID of the selected generated text.
+
+        Returns
+        -------
+        - `404`: When we can't find the project ID.
+        - `200`: When the completed text has been set as favorite correctly.
+      tags:
+      - AI Templates
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/ai/outputs/{id}/:
+    get:
+      operationId: api_v1_ai_outputs_retrieve
+      description: |-
+        Show all the text generated by the AI in a given project.
+
+        Parameters
+        ----------
+        - `project_id`: The project ID.
+
+        Returns
+        -------
+        - `404`: When we can't find the project ID.
+        - `200`: When the completed text has been set as favorite correctly.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - AI Templates
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/ai/select/:
+    get:
+      operationId: api_v1_ai_select_retrieve
+      description: |-
+        Select a template.
+        Returns
+        -------
+        A list of dict with:
+        - `id`: the machine-understandable code for selecting a tool
+        - `name`: a human-friendly tool name
+        - `description`: additional deatils about this tool
+        - `category`: the category the tool belongs to
+        - `icon`: the icon to show
+        ```
+        [
+            {
+                "id": "1eb7c214",
+                "name": "Growth Ideas",
+                "description": "Some words",
+                "category": "Ideation"
+                "icon": None
+            },
+            .
+            .
+            .
+        ]
+        ```
+      tags:
+      - AI Templates
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/ai/template/{id}/{tool_id}/:
+    get:
+      operationId: api_v1_ai_template_retrieve
+      description: |-
+        Given a tool, users see the past generated texts they've created.
+
+        Returns
+        -------
+        All the completions created with a tool plus some extra info.
+
+        ```
+        {
+            "completions": [
+                {
+                    "text": "A generated text.",
+                    "id": "bcf17bad-50fc-4f83-9889-4dd84500306c",
+                    "wordcount": 17,
+                    "created": "2021-08-19T09:40:33Z",
+                    "favorite": false
+                },
+                .
+                .
+                .
+            ],
+            "pagetype": "smartcopy",
+            "rtl": false,
+            "project": "1eb7c214-bc68-4ed5-9b7e-f1b9aa3733f6",
+            "tool_name": "Growth Ideas",
+            "raw_tool_name": "growth-ideas",
+            "completions_count": 5
+        }
+        ```
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: tool_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - AI Templates
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/authenticate:
+    post:
+      operationId: api_v1_authenticate_create
+      description: |-
+        Exempts the view from CSRF requirements.
+
+        NOTE:
+            This should be the left-most mixin of a view.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthenticateToken'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AuthenticateToken'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AuthenticateToken'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticateToken'
+          description: ''
+  /api/v1/automations/brief/:
+    post:
+      operationId: api_v1_automations_brief_create
+      description: |-
+        Automate a content brief, turning data from SERP into text format.
+
+        Paramaters
+        ----------
+        - `doc_id`: a uuid-like string to identify a document.
+        - `fields`: an array of fields to return, could be one of these:
+            - `guidelines`:
+            - `SERP`
+            - `Topics`
+            - `Topic Clusters`
+            - `Headers`
+            - `Questions`
+            - `Statistics`
+            - `External links`
+            - `Internal links`
+
+        Returns
+        -------
+        - `200`: a dictionary with the brief in HTML format.
+        - `400`: missing `doc_id` or `fields` in payload.
+        - `401`: current user has no permissions to see this object.
+        - `404`: no document found.
+      tags:
+      - editor
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/dashboard/:
+    get:
+      operationId: api_v1_dashboard_retrieve
+      description: Welcome page for logged users.
+      tags:
+      - Dashboard
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/document/{id}/:
+    get:
+      operationId: api_v1_document_retrieve
+      description: Get details about a document.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - document
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/document/{id}/{task_id}/:
+    get:
+      operationId: api_v1_document_retrieve_2
+      description: |-
+        Get the status of an async SERP task
+
+        #TODO: better docs
+        Returns
+        - `200`
+        - `202`
+        - `400`
+        - `401`
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: task_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - document
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/document/{id}/data/:
+    get:
+      operationId: api_v1_document_data_retrieve
+      description: Get all data related to a document.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - document
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/document/{id}/delete/:
+    delete:
+      operationId: api_v1_document_delete_destroy
+      description: Delete a document.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - document
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteDocInlineOneOff'
+          description: ''
+  /api/v1/document/{id}/public/data/:
+    get:
+      operationId: api_v1_document_public_data_retrieve
+      description: |-
+        Get all data related to a document.
+
+        Returns
+        - `200`
+        - `401`
+        - `404`
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - document
+      responses:
+        '200':
+          description: No response body
+  /api/v1/document/{id}/rename/:
+    patch:
+      operationId: api_v1_document_rename_partial_update
+      description: |-
+        Change the name and or description of the document
+
+        ## Returns
+        - `200`: when users have renamed the project
+        - `400`: when the endpoint does not receive neither title nor description
+        - `401`: when the current user has no change permissions for this object
+        - `404`: when the document is not found
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - documents
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/document/examples/:
+    post:
+      operationId: api_v1_document_examples_create
+      description: |-
+        Given a topic, search inside content, headers or titles
+
+        ## Returns
+        - `200` A list of examples.
+        - `400` Missing elements in the POST request
+        - `401` when user has no permissions for this document
+        - `404` when the document is not found
+      tags:
+      - document
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/document/new/:
+    post:
+      operationId: api_v1_document_new_create
+      description: |-
+        Create a document within a project.
+        If keywords is present, call SERP Analyzer endpoint and save data in DB.
+
+        ## POST body
+        - project_id: UUID-like str
+        - title: str. The title of the document
+        - keywords: list. A list of keywords you want to optimize this document for.
+        - location_id: int. the ID for the serp
+        - language: two letter iso code for language
+
+        ## Returns
+        - `201` status code when document has been created successfully.
+        - `401` when user has no permissions for this project
+        - `402` when user has no quota
+        - `404` when the language is not supported
+      tags:
+      - document
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/document/refresh-from-v1/:
+    post:
+      operationId: api_v1_document_refresh_from_v1_create
+      description: |-
+        This helper function uses the v2 content extraction engine
+
+        Returns
+        -------
+        - `201`: when the refresh tasks are set
+        - `400`: when data are corrupted
+        - `401`: when the current user has no permissions to do this operation
+        - `404`: when the document is not found
+      tags:
+      - document
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/document/share/:
+    post:
+      operationId: api_v1_document_share_create
+      description: |-
+        Change the document privacy: public or private.
+
+        ## Returns
+        - `200`: privacy changed
+        - `401`: no change permissions for this object
+        - `404`: object not found
+      tags:
+      - document
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/documents/:
+    get:
+      operationId: api_v1_documents_retrieve
+      description: List all the documents available in a Project.
+      tags:
+      - document
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/history/:
+    post:
+      operationId: api_v1_history_create
+      description: |-
+        Get all the available versions for a document.
+
+        Returns
+        -------
+        - `200`: list of dict with partial information about document versions.
+        - `400`: missing `doc_id` in payload.
+        - `401`: current user has no permissions to see this object.
+        - `404`: no document found.
+      tags:
+      - editor
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/history/detail/:
+    post:
+      operationId: api_v1_history_detail_create
+      description: |-
+        Get a specific version for a document.
+
+        Returns
+        -------
+        - `200`: dict with the full content for a historic document.
+        - `400`: missing `doc_id` or `version_id` in payload.
+        - `401`: current user has no permissions to see this object.
+        - `404`: no document found or no version found.
+      tags:
+      - editor
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/history/revert/:
+    post:
+      operationId: api_v1_history_revert_create
+      description: |-
+        Reverse a document to a specific version.
+
+        Returns
+        -------
+        - `200`: reverted document to that version.
+        - `400`: missing `doc_id` or `version_id` in payload.
+        - `401`: current user has no permissions to see this object.
+        - `404`: no document found or no version found.
+      tags:
+      - editor
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/import-from-url/:
+    post:
+      operationId: api_v1_import_from_url_create
+      description: |-
+        POST view that calls a Cloud Functions to import the content from an URL.
+
+        Parameters
+        ----------
+        request : HttpRequest
+            The request.
+
+        Status codes
+        -------
+        - `200` a dict with `status`, `content`, `readability` and `wordcount`.
+        - `400` not valid URL
+        - `501` content extraction for that url not implemented
+
+        Returns
+        -------
+        response : Response
+            If a valid URL is provided, returns JSON that informs frontend that the job has started.
+            Else if the URL is malformed returns a JSON with `status: 400 bad request` and a message.
+            Else it will returns a 501 not implemented status code
+      tags:
+      - editor
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/keywords/:
+    get:
+      operationId: api_v1_keywords_retrieve
+      description: |-
+        Show the keyword reports authored by the current user.
+
+        POST: Create report
+        -------
+        Get keyword data from microservices.
+
+
+        Parameters
+        ----------
+        - country :
+        - query :
+        - language :
+
+        Returns
+        -------
+        A JSON with:
+        - `keywords`:
+        - `research_terms`:
+        - `id`:
+
+        ```json
+            {
+                "keywords": [
+                    [
+                        "sneakers buy online",
+                        1300
+                    ],
+                    [
+                        "best places to buy sneakers online",
+                        480
+                    ]
+                ],
+                "research_terms": [
+                    {
+                        "jordan": 5217440
+                    },
+                    {
+                        "shoe": 3340390
+                    }
+                ],
+                "id": "d35111d2-98bf-4967-aa82-c35cdab11430"
+            }
+        ```
+
+        GET: List reports
+        -------
+
+        ```json
+        {
+            "reports": [
+                {
+                    "id": "851c30b0-7a7c-4f4e-9bad-50871f514b96",
+                    "query": "buy sneakers",
+                    "country": "United States of America",
+                    "language": "English"
+                },
+                ...
+            ]
+        }
+        ```
+      tags:
+      - keywords
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: api_v1_keywords_create
+      description: |-
+        Show the keyword reports authored by the current user.
+
+        POST: Create report
+        -------
+        Get keyword data from microservices.
+
+
+        Parameters
+        ----------
+        - country :
+        - query :
+        - language :
+
+        Returns
+        -------
+        A JSON with:
+        - `keywords`:
+        - `research_terms`:
+        - `id`:
+
+        ```json
+            {
+                "keywords": [
+                    [
+                        "sneakers buy online",
+                        1300
+                    ],
+                    [
+                        "best places to buy sneakers online",
+                        480
+                    ]
+                ],
+                "research_terms": [
+                    {
+                        "jordan": 5217440
+                    },
+                    {
+                        "shoe": 3340390
+                    }
+                ],
+                "id": "d35111d2-98bf-4967-aa82-c35cdab11430"
+            }
+        ```
+
+        GET: List reports
+        -------
+
+        ```json
+        {
+            "reports": [
+                {
+                    "id": "851c30b0-7a7c-4f4e-9bad-50871f514b96",
+                    "query": "buy sneakers",
+                    "country": "United States of America",
+                    "language": "English"
+                },
+                ...
+            ]
+        }
+        ```
+      tags:
+      - keywords
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/keywords/{id}/:
+    get:
+      operationId: api_v1_keywords_retrieve_2
+      description: |-
+        Get keyword report data, given valid id.
+
+        Parameters
+        ----------
+        The GET request must contain `id` to identify the report.
+
+        Returns
+        -------
+        response : Response
+            A JSON with `data` key.
+
+        Example Response
+        -------
+        ```json
+        {
+            "total": len(report.data),      # kws in this report
+            "research_terms": report.research_terms, # research terms
+            "keywords": report.serialize(),     # kws data
+        }
+        ```
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - keywords
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/keywords/{id}/{task_id}/:
+    get:
+      operationId: api_v1_keywords_retrieve_3
+      description: Get the status of an async Keyword Research task
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: task_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - keywords
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/keywords/clusterize/download/:
+    post:
+      operationId: api_v1_keywords_clusterize_download_create
+      description: |-
+        Example Response
+        -------
+      tags:
+      - keywords
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/keywords/clusters/:
+    get:
+      operationId: api_v1_keywords_clusters_retrieve
+      description: List of the uploaded reports.
+      tags:
+      - document
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/keywords/clusters/{id}/:
+    get:
+      operationId: api_v1_keywords_clusters_retrieve_2
+      description: Get data about a single report
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - clusters
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/keywords/clusters/{id}/{task_id}/:
+    get:
+      operationId: api_v1_keywords_clusters_retrieve_3
+      description: Get the status of an async cluster task
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: task_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - clusters
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/keywords/clusters/{id}/delete/:
+    delete:
+      operationId: api_v1_keywords_clusters_delete_destroy
+      description: Delete a Cluster.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - clusters
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/keywords/clusters/download/:
+    post:
+      operationId: api_v1_keywords_clusters_download_create
+      description: Download the keyword cluster data in CSV.
+      tags:
+      - clusters
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/keywords/clusters/process/:
+    post:
+      operationId: api_v1_keywords_clusters_process_create
+      description: |-
+        Process cluster coming from the frontend
+        ### Input
+        A JSON payload with:
+        - `data` list of dict with
+            - `keyword` string
+            - `volume`  int
+        - `language`: 2-letter iso code string
+        - `project`: UUID-like string
+
+        ### Returns
+        - `400`: invalid payload
+        - `401`: if you have not the rights to create a cluster in that project
+        - `402`: payment required (need to buy more credits)
+        - `200`: sample result below
+
+        {
+            "clusters":
+            [
+                {
+                    "keyword": "giochi online per bambini",
+                    "volume": "7300"
+                },
+                {
+                    "keyword": "giochi per bambini online",
+                    "volume": "3800"
+                },
+                ...
+            ],
+            "id": "UUID-like-id"
+        }
+      tags:
+      - clusters
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/keywords/clusters/webhook/:
+    post:
+      operationId: api_v1_keywords_clusters_webhook_create
+      description: This endpoint will receive a webhook from the cluster service.
+      tags:
+      - clusters
+      responses:
+        '200':
+          description: No response body
+  /api/v1/keywords/download/:
+    post:
+      operationId: api_v1_keywords_download_create
+      description: |-
+        Example Response
+        -------
+      tags:
+      - keywords
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/keywords/questions/{id}/:
+    get:
+      operationId: api_v1_keywords_questions_retrieve
+      description: |-
+        Get questions from Google Autosuggest
+
+        Example Response
+        -------
+        ```json
+        {"questions":
+            {
+                "query": {
+                    "items": {
+                        "buy sneakers online": [
+                            "buy sneakers online cheap",
+                            "buy sneakers online india",
+                            "buy sneakers online pick up in store",
+                            "buy sneakers online canada",
+                        ]
+                    }
+                },
+                "letters": {
+                    "items": {
+                        "a": [
+                            "buy sneakers online australia",
+                            "buy sneakers online amazon",
+                        ],
+                        "b": [
+                            "buy sneakers online belgium",
+                            "buy black sneakers online",
+                        ]
+                        ...
+                    }
+                },
+                "questions": {
+                    "items": {
+                        "Can": [
+                            "to buy sneakers online",
+                            "where can i buy sneakers online"
+                        ]
+                        ...
+                    }
+                },
+                "comparisons": {
+                    "items": {
+                        "Or": [
+                            "buy original sneakers online"
+                        ],
+                        "Vs": [
+                            "buying sneakers online"
+                        ],
+                        ...
+                },
+                "prepositions": {
+                    "items": {
+                        "Is": [
+                            "buy sneakers online for ladies",
+                            "where can i buy real sneakers online"
+                        ],
+                        "To": [
+                            "buy sneakers online toronto",
+                            "buy sneakers online in pakistan",
+                            ]
+                        ...
+                    }
+                }
+            }
+        }
+        ```
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - keywords
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/keywords/questions/download/:
+    post:
+      operationId: api_v1_keywords_questions_download_create
+      description: |-
+        Example Response
+        -------
+      tags:
+      - keywords
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/languages/:
+    get:
+      operationId: api_v1_languages_retrieve
+      description: List all the languages available
+      tags:
+      - geo
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/locations/:
+    get:
+      operationId: api_v1_locations_retrieve
+      description: |-
+        List all the locations available.
+
+        ## Query params
+        - search_Value: filter across the available locations
+        - location_type:
+            - Airport
+            - Autonomous Community
+            - Borough
+            - Canton
+            - City
+            - City Region
+            - Congressional District
+            - Country
+            - County
+            - DMA Region
+            - Department
+            - District
+            - Governorate
+            - Municipality
+            - National Park
+            - Neighborhood
+            - Okrug
+            - Postal Code
+            - Prefecture
+            - Province
+            - Region
+            - State
+            - TV Region
+            - Territory
+            - Union Territory
+            - University
+      tags:
+      - geo
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/payments/addons/clusters/:
+    get:
+      operationId: api_v1_payments_addons_clusters_retrieve
+      description: This function will return the addons prices for the clusters.
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/payments/billing/:
+    post:
+      operationId: api_v1_payments_billing_create
+      description: |-
+        This function returns an URL for the Stripe Customer Portal.
+
+        Docs: https://stripe.com/docs/billing/subscriptions/integrating-customer-portal
+      tags:
+      - subscriptions
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/payments/checkout/create/:
+    post:
+      operationId: api_v1_payments_checkout_create_create
+      description: |-
+        Create new Checkout Session for the subscription.
+        Other optional params include:
+        - [billing_address_collection] - to display billing address details on the page
+        - [customer] - if you have an existing Stripe Customer ID
+        - [payment_intent_data] - lets capture the payment later
+        - [customer_email] - lets you prefill the email input in the form
+        For full details see https://stripe.com/docs/api/checkout/sessions/create
+
+        - ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
+      tags:
+      - subscriptions
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/payments/clusters/checkout/create/:
+    post:
+      operationId: api_v1_payments_clusters_checkout_create_create
+      description: |-
+        This function will create a Stripe Checkout Session to buy additional Clusters Credits.
+
+        Returns the checkout URL.
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/payments/config/:
+    get:
+      operationId: api_v1_payments_config_retrieve
+      tags:
+      - subscriptions
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/payments/plans/:
+    get:
+      operationId: api_v1_payments_plans_retrieve
+      description: This function returns the information about the current plan of
+        the user and the available subscription plans.
+      tags:
+      - subscriptions
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/payments/webhooks/:
+    post:
+      operationId: api_v1_payments_webhooks_create
+      tags:
+      - api
+      responses:
+        '200':
+          description: No response body
+  /api/v1/project/{id}/:
+    get:
+      operationId: api_v1_project_retrieve
+      description: Get the project data given an ID.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - projects
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/project/{id}/delete/:
+    delete:
+      operationId: api_v1_project_delete_destroy
+      description: |-
+        Delete a project only when you have the permission.
+
+        ## Returns
+        - `204`: when users have deleted the project
+        - `400`: when users try to delete the only project they have.
+        - `401`: when users have not permissions to do this
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - projects
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/project/{id}/members/:
+    get:
+      operationId: api_v1_project_members_retrieve
+      description: Get a list of current team mates and show their permissions.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - projects
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/project/{id}/rename/:
+    patch:
+      operationId: api_v1_project_rename_partial_update
+      description: |-
+        Change the name of the project
+
+        ## Returns
+        - `200`: when users have renamed the project
+        - `404`: when the project is not found
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - projects
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/project/new/:
+    post:
+      operationId: api_v1_project_new_create
+      description: |-
+        Create a project authored by the current user.
+
+        ## Returns
+        `201` when project was created successfully.
+      tags:
+      - projects
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/project/share/:
+    post:
+      operationId: api_v1_project_share_create
+      description: |-
+        Share a project with one of your team mates.
+
+        ## Returns
+        `200` when project was shared successfully.
+        `400` user has not permissions to perform this task
+        `404` when there are no project with that id
+      tags:
+      - projects
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/project/share/delete/:
+    post:
+      operationId: api_v1_project_share_delete_create
+      description: |-
+        Revoke access to a project by removing the permission.
+
+        ## Returns
+        `200` revoked access successfully
+        `400` user has not permissions to perform this task
+        `404` when there are no project with that id
+      tags:
+      - projects
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/projects/:
+    get:
+      operationId: api_v1_projects_retrieve
+      description: List and search the projects visible to the current user.
+      tags:
+      - project
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/quota/:
+    get:
+      operationId: api_v1_quota_retrieve
+      description: Returns a list of quotas for the current user.
+      tags:
+      - Dashboard
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/s2t/status/{id}/:
+    get:
+      operationId: api_v1_s2t_status_retrieve
+      description: |-
+        Check status of a transcription
+
+        Returns
+        -------
+        - `200`: ok
+        - `202`: processing
+        - `400`: id is requested
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - audio
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/s2t/transcript/:
+    post:
+      operationId: api_v1_s2t_transcript_create
+      description: |-
+        Given an URL, calculate duration and then send it to Cloud function.
+
+        Returns
+        -------
+        - `201` - job created
+        - `401` - no permission for this project
+        - `500` - generic error
+      tags:
+      - audio
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/s2t/transcriptions/:
+    get:
+      operationId: api_v1_s2t_transcriptions_retrieve
+      description: List all the documents available in a Project.
+      tags:
+      - audio
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/s2t/vendors/webhook/:
+    post:
+      operationId: api_v1_s2t_vendors_webhook_create
+      description: |-
+        Receive signal from assembly that a job is completed.
+
+        Docs: https://docs.assemblyai.com/overview/getting-webhooks-when-transcriptions-are-done
+      tags:
+      - api
+      responses:
+        '200':
+          description: No response body
+  /api/v1/save-document/:
+    post:
+      operationId: api_v1_save_document_create
+      description: |-
+        This endpoint will save the current content in the editor.
+
+        Returns
+        -------
+        - `200` when the notes was successfully saved
+        - `401` if the current user does not have the permissions to edit the notes
+        - `404` if the document is not found in DB
+      tags:
+      - editor
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/save-notes/:
+    post:
+      operationId: api_v1_save_notes_create
+      description: |-
+        This endpoint will save notes in the document.
+
+        Returns
+        -------
+        - `200` when the notes was successfully saved
+        - `401` if the current user does not have the permissions to edit the notes
+        - `404` if the document is not found in DB
+      tags:
+      - editor
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/score/:
+    post:
+      operationId: api_v1_score_create
+      description: |-
+        Content scoring.
+
+        Returns
+        -------
+        {
+            "score": float,  # weighted average
+            "wordcount": int,  # your wordcount TODO: exclude outliers
+            "avg_wordcount": float,
+            "perc_wordcount": float,  # % for the bar
+            "readability": float,  # average headers usage
+            "topic_score": float,  # subtopics % on total. topic.weights
+        }
+
+        Status code
+        -----------
+        - `200` with an obj with scores
+        - `400`if no text provided
+        - `401` unauthorized
+      tags:
+      - editor
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/team/members/:
+    get:
+      operationId: api_v1_team_members_retrieve
+      description: List the members associated to your team.
+      tags:
+      - teams
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/team/members/delete/:
+    delete:
+      operationId: api_v1_team_members_delete_destroy
+      description: Remove a member from your team and delete his profile and respective
+        data.
+      tags:
+      - teams
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/team/members/demote/:
+    post:
+      operationId: api_v1_team_members_demote_create
+      description: |-
+        Demote a member of your team to standard permissions.
+
+        Parameters
+        ----------
+        - `member`: email of the user you want to demote.
+
+        Returns
+        -------
+        - `200`: Selected user is promoted.
+        - `400`: The request user cannot promote/demote himself.
+        - `403`: The request user is not a team lead.
+        - `404`: Selected user is not part of the team.
+      tags:
+      - teams
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/team/members/invite/:
+    post:
+      operationId: api_v1_team_members_invite_create
+      description: |-
+        Invite a member to your team via email address.
+
+        Parameters
+        ----------
+        - `email`: the email you want to invite to your team.
+
+        Returns
+        -------
+        - `200`: Invitation created and sent succesfully.
+        - `403`: Not enough permission to invite.
+        - `409`: Conflict: email associated to another account.
+      tags:
+      - teams
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/team/members/invite/delete/:
+    delete:
+      operationId: api_v1_team_members_invite_delete_destroy
+      description: Delete invitation.
+      tags:
+      - teams
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/team/members/invite/invitations/:
+    get:
+      operationId: api_v1_team_members_invite_invitations_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCustomInvitationReadList'
+          description: ''
+    post:
+      operationId: api_v1_team_members_invite_invitations_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvitationWrite'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InvitationWrite'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InvitationWrite'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvitationWrite'
+          description: ''
+  /api/v1/team/members/invite/invitations/{id}/:
+    get:
+      operationId: api_v1_team_members_invite_invitations_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this invitation.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomInvitationRead'
+          description: ''
+    delete:
+      operationId: api_v1_team_members_invite_invitations_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this invitation.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/team/members/invite/invitations/{id}/send/:
+    post:
+      operationId: api_v1_team_members_invite_invitations_send_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this invitation.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvitationWrite'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InvitationWrite'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InvitationWrite'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvitationWrite'
+          description: ''
+  /api/v1/team/members/invite/invitations/accept-invite/{key}/:
+    get:
+      operationId: api_v1_team_members_invite_invitations_accept_invite_retrieve
+      parameters:
+      - in: path
+        name: key
+        schema:
+          type: string
+          pattern: ^\w+$
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: api_v1_team_members_invite_invitations_accept_invite_create
+      parameters:
+      - in: path
+        name: key
+        schema:
+          type: string
+          pattern: ^\w+$
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/team/members/invite/invitations/create-and-send/:
+    post:
+      operationId: api_v1_team_members_invite_invitations_create_and_send_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvitationWrite'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InvitationWrite'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InvitationWrite'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvitationWrite'
+          description: ''
+  /api/v1/team/members/invite/invitations/send-multiple/:
+    post:
+      operationId: api_v1_team_members_invite_invitations_send_multiple_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvitationBulkWrite'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InvitationBulkWrite'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InvitationBulkWrite'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvitationBulkWrite'
+          description: ''
+  /api/v1/team/members/promote/:
+    post:
+      operationId: api_v1_team_members_promote_create
+      description: |-
+        Promote a member of your team to team leader.
+
+        Parameters
+        ----------
+        - `member`: email of the user you want to promote.
+
+
+        Returns
+        -------
+        - `200`: Selected user is promoted.
+        - `400`: The request user cannot promote/demote himself.
+        - `403`: The request user is not a team lead.
+        - `404`: Selected user is not part of the team.
+      tags:
+      - teams
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/team/members/team-name/{invite_code}/:
+    get:
+      operationId: api_v1_team_members_team_name_retrieve
+      description: |-
+        Given an invite code, return the team name
+
+        Returns
+        -------
+        - `200`: with the team name
+        - `404`: team name not found
+      parameters:
+      - in: path
+        name: invite_code
+        schema:
+          type: string
+        required: true
+      tags:
+      - teams
+      responses:
+        '200':
+          description: No response body
+  /api/v1/topics/count/:
+    post:
+      operationId: api_v1_topics_count_create
+      description: |-
+        Count the topic occurrences in a document
+
+        Status codes
+        ------------
+        - `200`: a dict with `top` and `sub`.
+        - `400`: bad request
+        - `401`: no permissions
+        - `404`: topic model does not exist.
+      tags:
+      - editor
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /auth-token/:
+    post:
+      operationId: auth_token_create
+      tags:
+      - auth-token
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+          description: ''
+components:
+  schemas:
+    AuthToken:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        token:
+          type: string
+          readOnly: true
+      required:
+      - password
+      - token
+      - username
+    AuthenticateToken:
+      type: object
+      properties:
+        token:
+          type: string
+          writeOnly: true
+        user_id:
+          type: string
+          readOnly: true
+        success:
+          type: string
+          readOnly: true
+      required:
+      - success
+      - token
+      - user_id
+    ChangePassword:
+      type: object
+      properties:
+        old_password:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        password2:
+          type: string
+          writeOnly: true
+      required:
+      - old_password
+      - password
+      - password2
+    CountryEnum:
+      enum:
+      - AF
+      - AX
+      - AL
+      - DZ
+      - AS
+      - AD
+      - AO
+      - AI
+      - AQ
+      - AG
+      - AR
+      - AM
+      - AW
+      - AU
+      - AT
+      - AZ
+      - BS
+      - BH
+      - BD
+      - BB
+      - BY
+      - BE
+      - BZ
+      - BJ
+      - BM
+      - BT
+      - BO
+      - BQ
+      - BA
+      - BW
+      - BV
+      - BR
+      - IO
+      - BN
+      - BG
+      - BF
+      - BI
+      - CV
+      - KH
+      - CM
+      - CA
+      - KY
+      - CF
+      - TD
+      - CL
+      - CN
+      - CX
+      - CC
+      - CO
+      - KM
+      - CG
+      - CD
+      - CK
+      - CR
+      - CI
+      - HR
+      - CU
+      - CW
+      - CY
+      - CZ
+      - DK
+      - DJ
+      - DM
+      - DO
+      - EC
+      - EG
+      - SV
+      - GQ
+      - ER
+      - EE
+      - SZ
+      - ET
+      - FK
+      - FO
+      - FJ
+      - FI
+      - FR
+      - GF
+      - PF
+      - TF
+      - GA
+      - GM
+      - GE
+      - DE
+      - GH
+      - GI
+      - GR
+      - GL
+      - GD
+      - GP
+      - GU
+      - GT
+      - GG
+      - GN
+      - GW
+      - GY
+      - HT
+      - HM
+      - VA
+      - HN
+      - HK
+      - HU
+      - IS
+      - IN
+      - ID
+      - IR
+      - IQ
+      - IE
+      - IM
+      - IL
+      - IT
+      - JM
+      - JP
+      - JE
+      - JO
+      - KZ
+      - KE
+      - KI
+      - KW
+      - KG
+      - LA
+      - LV
+      - LB
+      - LS
+      - LR
+      - LY
+      - LI
+      - LT
+      - LU
+      - MO
+      - MG
+      - MW
+      - MY
+      - MV
+      - ML
+      - MT
+      - MH
+      - MQ
+      - MR
+      - MU
+      - YT
+      - MX
+      - FM
+      - MD
+      - MC
+      - MN
+      - ME
+      - MS
+      - MA
+      - MZ
+      - MM
+      - NA
+      - NR
+      - NP
+      - NL
+      - NC
+      - NZ
+      - NI
+      - NE
+      - NG
+      - NU
+      - NF
+      - KP
+      - MK
+      - MP
+      - 'NO'
+      - OM
+      - PK
+      - PW
+      - PS
+      - PA
+      - PG
+      - PY
+      - PE
+      - PH
+      - PN
+      - PL
+      - PT
+      - PR
+      - QA
+      - RE
+      - RO
+      - RU
+      - RW
+      - BL
+      - SH
+      - KN
+      - LC
+      - MF
+      - PM
+      - VC
+      - WS
+      - SM
+      - ST
+      - SA
+      - SN
+      - RS
+      - SC
+      - SL
+      - SG
+      - SX
+      - SK
+      - SI
+      - SB
+      - SO
+      - ZA
+      - GS
+      - KR
+      - SS
+      - ES
+      - LK
+      - SD
+      - SR
+      - SJ
+      - SE
+      - CH
+      - SY
+      - TW
+      - TJ
+      - TZ
+      - TH
+      - TL
+      - TG
+      - TK
+      - TO
+      - TT
+      - TN
+      - TR
+      - TM
+      - TC
+      - TV
+      - UG
+      - UA
+      - AE
+      - GB
+      - UM
+      - US
+      - UY
+      - UZ
+      - VU
+      - VE
+      - VN
+      - VG
+      - VI
+      - WF
+      - EH
+      - YE
+      - ZM
+      - ZW
+      type: string
+    CreateUser:
+      type: object
+      properties:
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        invite_code:
+          type: string
+          nullable: true
+          maxLength: 100
+      required:
+      - email
+      - password
+    CustomInvitationRead:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        accepted:
+          type: boolean
+        key:
+          type: string
+          maxLength: 64
+        sent:
+          type: string
+          format: date-time
+          nullable: true
+        email:
+          type: string
+          format: email
+          title: E-mail address
+          maxLength: 254
+        created:
+          type: string
+          format: date-time
+        inviter:
+          type: string
+          nullable: true
+      required:
+      - email
+      - id
+      - key
+    DeleteDocInlineOneOff:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    Email:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    InvitationBulkWrite:
+      type: object
+      properties:
+        email:
+          type: array
+          items:
+            type: string
+            format: email
+      required:
+      - email
+    InvitationWrite:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          title: E-mail address
+          maxLength: 254
+      required:
+      - email
+    LanguageEnum:
+      enum:
+      - af
+      - sq
+      - am
+      - ar
+      - hy
+      - az
+      - eu
+      - be
+      - bn
+      - bs
+      - bg
+      - ca
+      - ceb
+      - zh-CN
+      - zh-TW
+      - hr
+      - cs
+      - da
+      - nl
+      - en
+      - et
+      - fi
+      - fr
+      - fy
+      - gl
+      - ka
+      - de
+      - el
+      - gu
+      - ht
+      - ha
+      - he
+      - hi
+      - hu
+      - is
+      - ig
+      - id
+      - ga
+      - it
+      - ja
+      - kn
+      - kk
+      - km
+      - rw
+      - ko
+      - ky
+      - lo
+      - lv
+      - lt
+      - mk
+      - ms
+      - ml
+      - mt
+      - mi
+      - mr
+      - mn
+      - my
+      - ne
+      - 'no'
+      - ps
+      - pl
+      - pt-BR
+      - pt
+      - pa
+      - ro
+      - ru
+      - gd
+      - sr
+      - sr-Latn
+      - st
+      - sn
+      - sd
+      - si
+      - sk
+      - sl
+      - so
+      - es-419
+      - es
+      - sw
+      - sv
+      - tg
+      - ta
+      - th
+      - tr
+      - tk
+      - uk
+      - ur
+      - uz
+      - vi
+      - xh
+      - yo
+      - zu
+      type: string
+    MyTokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - password
+      - username
+    NullEnum:
+      enum:
+      - null
+    PaginatedCustomInvitationReadList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomInvitationRead'
+    PaginatedUserList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+    PasswordToken:
+      type: object
+      properties:
+        password:
+          type: string
+        token:
+          type: string
+      required:
+      - password
+      - token
+    PatchedChangePassword:
+      type: object
+      properties:
+        old_password:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        password2:
+          type: string
+          writeOnly: true
+    PatchedUpdateGeoPreferences:
+      type: object
+      properties:
+        country:
+          nullable: true
+          description: The default preferred country.
+          oneOf:
+          - $ref: '#/components/schemas/CountryEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        language:
+          allOf:
+          - $ref: '#/components/schemas/LanguageEnum'
+          description: The default preferred language.
+    PatchedUpdateUser:
+      type: object
+      properties:
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+    PatchedUser:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        name:
+          type: string
+          title: Name of User
+          maxLength: 255
+        url:
+          type: string
+          format: uri
+          readOnly: true
+    ResetToken:
+      type: object
+      properties:
+        token:
+          type: string
+      required:
+      - token
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+    UpdateGeoPreferences:
+      type: object
+      properties:
+        country:
+          nullable: true
+          description: The default preferred country.
+          oneOf:
+          - $ref: '#/components/schemas/CountryEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        language:
+          allOf:
+          - $ref: '#/components/schemas/LanguageEnum'
+          description: The default preferred language.
+      required:
+      - country
+      - language
+    UpdateUser:
+      type: object
+      properties:
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+      required:
+      - email
+      - first_name
+      - last_name
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        name:
+          type: string
+          title: Name of User
+          maxLength: 255
+        url:
+          type: string
+          format: uri
+          readOnly: true
+      required:
+      - url
+      - username
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
