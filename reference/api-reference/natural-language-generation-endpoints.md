@@ -93,7 +93,7 @@ Take a look at how you might call this method using `curl` or `python`
 {% tabs %}
 {% tab title="cURL" %}
 ```bash
-curl -X POST https://api.neuraltext.com/api/v1/ai/write/ \
+curl -X POST https://api.neuraltext.com/api/v1/ai/write \
    -H "Accept: application/json" \
    -H "Authorization: Token {Your.API.Key}"
    -d '{"text":"A prompt", "temperature":0.9, "max_tokens":100}'
@@ -106,7 +106,7 @@ import requests
 token_key = "Your.API.Key"
 
 # Write
-url = "https://api.neuraltext.com/api/v1/ai/write/"
+url = "https://api.neuraltext.com/api/v1/ai/write"
 data = {"text":"A prompt", "temperature":0.9, "max_tokens":100}
 headers = {"Authorization": f"Token {token_key}"}
 
