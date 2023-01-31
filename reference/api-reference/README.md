@@ -6,14 +6,14 @@ Dive into the specifics of each API endpoint by checking out our complete docume
 [api-units-balance.md](api-units-balance.md)
 {% endcontent-ref %}
 
-{% content-ref url="natural-language-generation-endpoints.md" %}
-[natural-language-generation-endpoints.md](natural-language-generation-endpoints.md)
+{% content-ref url="natural-language-generation-endpoints/" %}
+[natural-language-generation-endpoints](natural-language-generation-endpoints/)
 {% endcontent-ref %}
 
-{% content-ref url="serp-analysis.md" %}
-[serp-analysis.md](serp-analysis.md)
+{% content-ref url="content-analysis/" %}
+[content-analysis](content-analysis/)
 {% endcontent-ref %}
 
-{% content-ref url="projects.md" %}
-[projects.md](projects.md)
+{% content-ref url="broken-reference" %}
+[Broken link](broken-reference)
 {% endcontent-ref %}
