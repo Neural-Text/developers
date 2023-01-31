@@ -33,7 +33,7 @@ Price:
 {% swagger-response status="200: OK" description="Success" %}
 ```javascript
 {
-    "api_units": 20000,
+    "api_units": 20000
 }
 ```
 {% endswagger-response %}
