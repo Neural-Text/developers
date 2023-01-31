@@ -41,3 +41,25 @@ Price:
 
 Take a look at how you might call this method using `curl` or `python`
 
+{% tabs %}
+{% tab title="cURL" %}
+```bash
+curl https://api.neuraltext.com/api/v1/balance/ \
+   -H "Accept: application/json" \
+   -H "Authorization: Token {Your.API.Key}"
+```
+{% endtab %}
+
+{% tab title="Python" %}
+```python
+import requests
+token_key = "Your.API.Key"
+
+# Get API Units balance
+url = "https://api.neuraltext.com/api/v1/balance/"
+headers = {"Authorization": f"Token {token_key}"}
+
+response = requests.get(url, headers=headers)
+```
+{% endtab %}
+{% endtabs %}
