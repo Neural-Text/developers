@@ -15,11 +15,11 @@ Price:
 **1 API unit every 200 tokens in input/output**
 {% endswagger-description %}
 
-{% swagger-parameter in="header" name="Authorization" required="true" %}
+{% swagger-parameter in="header" name="Authorization" required="true" type="String" %}
 `Token Your.API.Key`
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="text" required="true" %}
+{% swagger-parameter in="body" name="text" required="true" type="String" %}
 A prompt
 {% endswagger-parameter %}
 
@@ -38,7 +38,7 @@ A float number ranging from
 `1`
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="max_tokens" %}
+{% swagger-parameter in="body" name="max_tokens" type="Integer" %}
 Lenght of the text you want to generated, ranging from `1` to `3000`
 
 Default is `100`

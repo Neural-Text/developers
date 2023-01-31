@@ -26,21 +26,21 @@ Each result will have:
 `text`
 {% endswagger-description %}
 
-{% swagger-parameter in="header" name="Authorization" required="true" %}
+{% swagger-parameter in="header" name="Authorization" required="true" type="String" %}
 `Token Your.API.Key`
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="keyword" required="true" %}
+{% swagger-parameter in="body" name="keyword" required="true" type="String" %}
 The keyword you want to get results for, up to 700 characters. 
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="country" required="true" %}
+{% swagger-parameter in="body" name="country" required="true" type="String" %}
 2-letters country code.
 
 Default `us`.
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="language" required="true" %}
+{% swagger-parameter in="body" name="language" required="true" type="String" %}
 2-letters language code.
 
 Default `en`.

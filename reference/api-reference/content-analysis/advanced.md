@@ -27,13 +27,13 @@ A list of keywords you want to analyze. Maximum length is
  .
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="country" required="true" %}
+{% swagger-parameter in="body" name="country" required="true" type="String" %}
 2-letters country code.
 
 Default `us`.
 {% endswagger-parameter %}
 
-{% swagger-parameter in="body" name="language" required="true" %}
+{% swagger-parameter in="body" name="language" required="true" type="String" %}
 2-letters language code.
 
 Default `en`.
@@ -86,9 +86,9 @@ Default `en`.
 
 {% swagger method="get" path="/task/serp/<id>/" baseUrl="https://api.neuraltext.com/api/v1" summary="Get task status" %}
 {% swagger-description %}
-Price: 
+Price: **free**
 
-**free**
+**\<id>** is a UUID-like string representing the ID of the task.
 {% endswagger-description %}
 
 {% swagger-parameter in="header" name="Authorization" required="true" %}
@@ -234,8 +234,7 @@ Price: **free**
 {
   "results": [
       {"id": "3c0a7f54-73da-40f2-b7ed-f39d939424f8",
-       "created": "2023-01-12T09:50:31.441600+00:00"},
-       ...
+       "created": "2023-01-12T09:50:31.441600+00:00"}
        ]
 }
 ```
