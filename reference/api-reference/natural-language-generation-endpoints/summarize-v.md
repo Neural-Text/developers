@@ -11,7 +11,7 @@ Price:
 **1 API unit every 200 tokens in input**
 {% endswagger-description %}
 
-{% swagger-parameter in="body" name="text" required="true" type="String" %}
+{% swagger-parameter in="body" name="text" required="true" %}
 The text you want to summarize
 {% endswagger-parameter %}
 
@@ -23,7 +23,7 @@ Default to `5` .
 
 {% endswagger-parameter %}
 
-{% swagger-parameter in="header" name="Authorization" required="true" type="String" %}
+{% swagger-parameter in="header" name="Authorization" required="true" %}
 `Token Your.API.Key`
 {% endswagger-parameter %}
 
